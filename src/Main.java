@@ -245,6 +245,7 @@ public class Main {
                 System.out.println("Dublett");
             }
         }
+        
         return highestNumber;
     }
 }
