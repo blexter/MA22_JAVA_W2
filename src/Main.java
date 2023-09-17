@@ -1,11 +1,10 @@
 import javax.naming.directory.SearchControls;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     static Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
         /*int[] numbers = {3,5,6,9};
         String[] allNames = {"David", "Susan", "Lois", "Laura"};
@@ -204,48 +203,50 @@ public class Main {
             System.out.println(item);
         }*/
 
-        /*Du har en lista av heltal. Din uppgift är att skapa en funktion eller algoritm som hittar
-        det största unika talet i listan. Ett unikt tal är ett tal som bara förekommer en gång i listan.
-        Om det inte finns något unikt tal ska funktionen returnera ett meddelande om detta.*/
 
+        int size = 250;
+
+        size++;
+        int highestNumber = getInts(size);
+        System.out.println("Högsta unika numret är: " + highestNumber);
+    }
+
+    public static int getInts(int size) {
         ArrayList<Integer> ints = new ArrayList<Integer>();
-        int highestNumber = 0;
 
-        highestNumber =  getInts(ints, highestNumber);
-        for(int a : ints){
-            //System.out.println(a);
-        }
-        System.out.println(highestNumber);
-    }
-    public static int getInts (ArrayList<Integer> ints, int highestNumber){
         Random rnd = new Random();
-        for(int i = 1; i < 100; i++){
-            ints.add(rnd.nextInt(100));
+        Map<Integer, Integer> hm = new HashMap<Integer, Integer>();
+        for (int i = 1; i < size; i++) {
+            int randomNumber = rnd.nextInt(size);
+            if (hm.containsKey(randomNumber)) {
+                int value = hm.get(randomNumber);
+                hm.put(randomNumber, value++);
+            } else {
+                hm.put(randomNumber, 1);
+            }
         }
-        return getHighestInt(ints, highestNumber);
+        for (Map.Entry<Integer, Integer> entry : hm.entrySet()) {
+            if (entry.getValue() == 1) {
+                ints.add(entry.getKey());
+            }
+        }
+        if (ints.size() == 0) {
+            System.out.println("Inget unikt nummer funnet, avslutar programmet.");
+            System.exit(0);
+        }
+        return getHighestInt(ints);
 
     }
-    public static int getHighestInt (ArrayList<Integer> ints, int highestNumber){
-        boolean exit = false;
-        while(exit) {
-            for (int oneInt : ints) {
-                if (oneInt > highestNumber) {
-                    highestNumber = oneInt;
-                }
-            }
-            int j = 0;
-            for (int oneInt : ints) {
-                if (oneInt == highestNumber) {
-                    j++;
-                }
 
-            }
-
-            if (j > 1) {
-                System.out.println("Dublett");
+    public static int getHighestInt(ArrayList<Integer> ints) {
+        int highestNumber = 0;
+        boolean exit = true;
+        for (int oneInt : ints) {
+            if (oneInt > highestNumber) {
+                highestNumber = oneInt;
             }
         }
-        
+
         return highestNumber;
     }
 }
